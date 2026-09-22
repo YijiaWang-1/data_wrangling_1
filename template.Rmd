@@ -1,21 +1,40 @@
 ---
-title: "Simple document"
-output: html_document
+title: "data import"
+output: github_document
 ---
 
-I'm an R Markdown document! 
+This file is for doing data import.
 
 # Section 1
 
-Here's a **code chunk** that samples from 
-a _normal distribution_:
-
 ```{r}
-samp = rnorm(100)
-length(samp)
+library(tidyverse)
 ```
 
-# Section 2
+import the first dataset
 
-I can take the mean of the sample, too!
-The mean is `r mean(samp)`.
+```{r}
+litter_df=
+  read_csv(file="data_import_examples/data_import_examples/FAS_litters.csv")
+
+litter_df=janitor::clean_names(litter_df)
+```
+
+import the second dataset
+
+```{r}
+pups_df=
+  read_csv(file="data_import_examples/data_import_examples/FAS_pups.csv",skip=3, na = c(".", "NA"), col_types = "fddddd")
+pups_df=janitor::clean_names(pups_df)
+```
+head or tail
+```{r}
+head(pups_df,5)
+tail(pups_df,5)
+```
+
+skimming
+```{r}
+skimr::skim(pups_df)
+```
+
