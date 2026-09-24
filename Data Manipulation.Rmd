@@ -1,0 +1,49 @@
+---
+title: "Data Manipulation"
+output: github_document
+---
+
+```{r}
+library(tidyverse)
+```
+
+load the litters and pups dataset
+```{r}
+litter_df=
+  read_csv(file="data_import_examples/data_import_examples/FAS_litters.csv", na = c(".", "NA",""))
+litter_df=janitor::clean_names(litter_df)
+pups_df=
+  read_csv(file="data_import_examples/data_import_examples/FAS_pups.csv",skip=3, na = c(".", "NA",""), col_types = "fddddd")
+pups_df=janitor::clean_names(pups_df)
+```
+
+##select some variables
+```{r}
+#从 dataframe 中选择（或删除、重排、重命名）columns
+select(litter_df,group,litter_number)#只保留 group 和 litter_number 两列
+select(litter_df,group:gd_of_birth)#保留从 group 到 gd_of_birth 位置之间的所有列
+select(litter_df,-group)#删除 group 列，其他列保留
+select(litter_df,starts_with("gd"))
+select(litter_df,starts_with("gd"),group)#保留所有 "gd" 开头的列，再加 group；输出中 gd 列排前面
+select(litter_df,LITTER=litter_number,everything())#把 litter_number 重命名成 LITTER 并移动到第一列，然后保留其余所有列
+select(litter_df,-starts_with("gd"))
+```
+
+##relocate
+```{r}
+relocate(litter_df, litter_number, pups_survive)
+```
+
+##filter
+```{r}
+filter(pups_df, sex == 1)
+filter(pups_df, sex == 2, pd_walk < 11)
+```
+
+##mutate
+```{r}
+mutate(litter_df,wt_gain=gd18_weight-gd0_weight,group=str_to_lower(group))#对每一行进行这个计算，然后产生一个新的 column wt_gain，并把group字符串全部变成小写字母
+```
+
+
+
