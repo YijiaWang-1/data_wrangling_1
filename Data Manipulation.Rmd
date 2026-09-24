@@ -75,3 +75,7 @@ pups_df=
   )
 ```
 
+'select' vs 'pull'
+pull-trigger the column out(wrong)-don't have a dataframe any more
+
+never do '$'
